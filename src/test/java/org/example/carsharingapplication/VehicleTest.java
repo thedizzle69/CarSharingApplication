@@ -1,7 +1,10 @@
 package org.example.carsharingapplication;
 
+//import lombok.Getter;
+//import lombok.Setter;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+
 
 class VehicleTest {
 
