@@ -27,8 +27,10 @@ import java.util.Map;
 @SpringBootApplication
 @RestController
 @RequestMapping("/api")
+public class CarSharingApplication {
 
-public class CarSharingApplication{
+    private Map<String, User> users = new HashMap<>(); // In-memory storage for users
+    private Map<Long, Vehicle> vehicles = new HashMap<>(); // In-memory storage for vehicles
 
 }
 
