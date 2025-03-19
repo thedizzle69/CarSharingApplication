@@ -13,13 +13,6 @@ services:
       - '10000'
       - '10001'
       - '10002'
-  cassandra:
-    image: 'cassandra:latest'
-    environment:
-      - 'CASSANDRA_DC=dc1'
-      - 'CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch'
-    ports:
-      - '9042'
   chroma:
     image: 'chromadb/chroma:latest'
     ports:
@@ -63,12 +56,6 @@ services:
       - 'MYSQL_USER=myuser'
     ports:
       - '3306'
-  neo4j:
-    image: 'neo4j:latest'
-    environment:
-      - 'NEO4J_AUTH=neo4j/notverysecret'
-    ports:
-      - '7687'
   ollama:
     image: 'ollama/ollama:latest'
     ports:

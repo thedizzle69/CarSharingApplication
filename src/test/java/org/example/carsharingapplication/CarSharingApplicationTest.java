@@ -22,6 +22,13 @@ class CarSharingApplicationTest {
         mockMvc.perform(get("/api"))
                 .andExpect(status().isOk());
     }
+
+    // Test if API root endpoint returns OK
+    @Test
+    void testApiRootEndpoint() throws Exception {
+        mockMvc.perform(get("/api"))
+                .andExpect(status().isOk());
+    }
 }
 
 

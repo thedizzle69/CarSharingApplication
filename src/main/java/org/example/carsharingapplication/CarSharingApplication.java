@@ -1,8 +1,5 @@
 package org.example.carsharingapplication;
 
-//Getter and Setter Annotations:
-import lombok.Getter;
-import lombok.Setter;
 //Springboot imports
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -32,7 +29,15 @@ public class CarSharingApplication {
     private Map<String, User> users = new HashMap<>(); // In-memory storage for users
     private Map<Long, Vehicle> vehicles = new HashMap<>(); // In-memory storage for vehicles
 
+    public static void main(String[] args) {
+        SpringApplication.run(CarSharingApplication.class, args);
+    }
+
+
+
 }
+
+
 
 
 
