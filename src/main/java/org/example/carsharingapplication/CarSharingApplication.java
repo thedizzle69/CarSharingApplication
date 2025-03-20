@@ -12,11 +12,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//Lombok imports
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Data;
+import lombok.AccessLevel;
+
 /** This class is the main class to be used by the Car Sharing Application.
  *
  * @version 1.0
  * @since 13-03-2025
- * @author thedizzle69
+ * @author Jai SINGH
  *
  *
  */

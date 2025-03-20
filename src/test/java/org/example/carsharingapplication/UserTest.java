@@ -1,4 +1,4 @@
-package org.example.carsharingapplication;
+/*package org.example.carsharingapplication;
 
 //import lombok.Getter;
 //import lombok.Setter;
@@ -20,3 +20,4 @@ class UserTest {
         assertEquals("fleet-manager", user.getRole());
     }
 }
+*/

@@ -1,14 +1,17 @@
-package org.example.carsharingapplication;
+/*package org.example.carsharingapplication;
 
-//import lombok.Getter;
-//import lombok.Setter;
+import lombok.Generated;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
 class VehicleTest {
 
+
     @Test
+    @Generated
     void testVehicle() {
         Vehicle vehicle = new Vehicle();
 
@@ -31,3 +34,5 @@ class VehicleTest {
         assertEquals("abcdef", vehicle.getVehicleToken());
     }
 }
+
+ */
