@@ -1,4 +1,4 @@
-### Register a normal user
+### Register a normal user (Driver)
 POST http://localhost:8080/api/users/register
 Content-Type: application/json
 
@@ -6,6 +6,16 @@ Content-Type: application/json
   "username": "BMWDriver1",
   "password": "NoTurnSignal123",
   "role": "driver"
+}
+
+### Register a new fleet-manager
+POST http://localhost:8080/api/users/register
+Content-Type: application/json
+
+{
+  "username": "BigBoss1",
+  "password": "BossPW123",
+  "role": "fleet-manager"
 }
 
 ### Login as driver (Retrieve Token)
@@ -18,18 +28,8 @@ Content-Type: application/json
 }
 
 > {%
-    client.global.set("driver_token", response.body.token || "default_driver_token");
+    client.global.set("driver_token", response.body.token || "mock_driver_token");
 %}
-
-### Register a new fleet-manager
-POST http://localhost:8080/api/users/register
-Content-Type: application/json
-
-{
-  "username": "BigBoss1",
-  "password": "BossPW123",
-  "role": "fleet-manager"
-}
 
 ### Login as fleet manager (Retrieve Token)
 POST http://localhost:8080/api/users/login
@@ -41,19 +41,33 @@ Content-Type: application/json
 }
 
 > {%
-    client.global.set("fleet_manager_token", response.body.token || "default_fleet_manager_token");
+    client.global.set("fleet_manager_token", response.body.token || "mock_fleet_manager_token");
 %}
 
-### Retrieve all users (should only work for fleet managers)
+### Wrong Login Attempt
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+  "username": "WrongUser",
+  "password": "WrongPassword"
+}
+
+### Driver trying to retrieve all users (Should fail)
+GET http://localhost:8080/api/users
+Authorization: Bearer {{driver_token}}
+
+### Fleet manager retrieves all users
 GET http://localhost:8080/api/users
 Authorization: Bearer {{fleet_manager_token}}
 
-### Register a new vehicle (Only Fleet Managers Allowed)
+### Fleet manager registers a new vehicle
 POST http://localhost:8080/api/vehicles
 Content-Type: application/json
 Authorization: Bearer {{fleet_manager_token}}
 
 {
+  "id": 1,
   "name": "3er BMW",
   "description": "Bavarian car",
   "latitude": 42.0169,
@@ -63,7 +77,7 @@ Authorization: Bearer {{fleet_manager_token}}
   "vehicleToken": "BMW123"
 }
 
-### Retrieve all vehicles (Should work for any authenticated user)
+### Retrieve all vehicles (Should work for both roles)
 GET http://localhost:8080/api/vehicles
 Authorization: Bearer {{driver_token}}
 
@@ -71,14 +85,24 @@ Authorization: Bearer {{driver_token}}
 GET http://localhost:8080/api/vehicles/1
 Authorization: Bearer {{driver_token}}
 
-### Update a vehicle (Only Fleet Managers Allowed)
+### Driver trying to update a vehicle (Should fail)
+PUT http://localhost:8080/api/vehicles/1
+Content-Type: application/json
+Authorization: Bearer {{driver_token}}
+
+{
+  "name": "Updated BMW",
+  "description": "Driver should not be able to do this"
+}
+
+### Fleet manager updates a vehicle
 PUT http://localhost:8080/api/vehicles/1
 Content-Type: application/json
 Authorization: Bearer {{fleet_manager_token}}
 
 {
-  "name": "3er BMW",
-  "description": "Updated bavarian car",
+  "name": "Updated BMW",
+  "description": "Updated description",
   "latitude": 42.0169,
   "longitude": 16.3738,
   "state": "occupied",
@@ -86,6 +110,10 @@ Authorization: Bearer {{fleet_manager_token}}
   "vehicleToken": "BMW456"
 }
 
-### Delete a vehicle (Only Fleet Managers Allowed)
+### Driver trying to delete a vehicle (Should fail)
+DELETE http://localhost:8080/api/vehicles/1
+Authorization: Bearer {{driver_token}}
+
+### Fleet manager deletes a vehicle
 DELETE http://localhost:8080/api/vehicles/1
 Authorization: Bearer {{fleet_manager_token}}
