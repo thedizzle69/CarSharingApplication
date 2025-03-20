@@ -85,6 +85,34 @@ public class CarSharingApplication {
         return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
     }
 
+    // Vehicle Management
+    @PostMapping("/vehicles")
+    public ResponseEntity<String> registerVehicle(@RequestBody Vehicle vehicle) {
+        vehicles.put(vehicle.getId(), vehicle);
+        return new ResponseEntity<>("Vehicle registered successfully", HttpStatus.CREATED);
+    }
+
+    @GetMapping("/vehicles")
+    public ResponseEntity<List<Vehicle>> getAllVehicles() {
+        return new ResponseEntity<>(List.copyOf(vehicles.values()), HttpStatus.OK);
+    }
+
+    @GetMapping("/vehicles/{id}")
+    public ResponseEntity<Vehicle> getVehicleById(@PathVariable("id") long id) {
+        Vehicle vehicle = vehicles.get(id);
+        if (vehicle != null) {
+            return new ResponseEntity<>(vehicle, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("/vehicles/{id}")
+    public ResponseEntity<String> updateVehicle(@PathVariable("id") long id, @RequestBody Vehicle vehicle) {
+        // Update logic here
+        vehicles.put(id, vehicle);
+        return new ResponseEntity<>("Vehicle updated successfully", HttpStatus.OK);
+    }
 
 
 }
