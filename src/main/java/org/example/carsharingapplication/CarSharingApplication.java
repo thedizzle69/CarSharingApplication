@@ -26,8 +26,8 @@ import java.util.Map;
 @RequestMapping("/api")
 public class CarSharingApplication {
 
-    private Map<String, User> users = new HashMap<>(); // In-memory storage for users
-    private Map<Long, Vehicle> vehicles = new HashMap<>(); // In-memory storage for vehicles
+    private final Map<String, User> users = new HashMap<>(); // In-memory storage for users
+    private final Map<Long, Vehicle> vehicles = new HashMap<>(); // In-memory storage for vehicles
 
     public static void main(String[] args) {
         SpringApplication.run(CarSharingApplication.class, args);
