@@ -51,14 +51,15 @@ public class CarSharingApplication {
     }
 
     @PostMapping("/users/login")
-    public ResponseEntity<String> loginUser(@RequestHeader("Authorization") String auth) {
-        // Perform basic authentication check here
-        // Simulated logic for demonstration
-        if (auth.equals("Basic username:password")) {
-            return new ResponseEntity<>("Login successful", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<String> loginUser(@RequestBody User loginUser) {
+        User user = users.get(loginUser.getUsername());
+        if (user != null && user.getPassword().equals(loginUser.getPassword())) {
+            // Simulating a token by returning a simple generated string
+            String token = "token_" + loginUser.getUsername();
+            user.setAuthToken(token); // Store the token in-memory
+            return new ResponseEntity<>(token, HttpStatus.OK);
         }
+        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/users/logout")
@@ -70,12 +71,17 @@ public class CarSharingApplication {
     // Fleet Manager /users
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(@RequestHeader("Authorization") String authToken) {
-        // Simulated role check for demonstration
-        if (users.get(authToken).getRole().equals("fleet-manager")) {
-            return new ResponseEntity<>(users.values(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        // Validate token
+        for (User user : users.values()) {
+            if (user.getAuthToken() != null && user.getAuthToken().equals(authToken)) {
+                if (user.getRole().equals("fleet-manager")) {
+                    return new ResponseEntity<>(users.values(), HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+                }
+            }
         }
+        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/users/{id}")
@@ -112,6 +118,22 @@ public class CarSharingApplication {
         // Update logic here
         vehicles.put(id, vehicle);
         return new ResponseEntity<>("Vehicle updated successfully", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/vehicles/{id}")
+    public ResponseEntity<String> deleteVehicle(@PathVariable("id") long id, @RequestHeader("Authorization") String authToken) {
+        // Check if the user is authenticated and a fleet manager
+        for (User user : users.values()) {
+            if (user.getAuthToken() != null && user.getAuthToken().equals(authToken) && user.getRole().equals("fleet-manager")) {
+                if (vehicles.containsKey(id)) {
+                    vehicles.remove(id);
+                    return new ResponseEntity<>("Vehicle deleted successfully", HttpStatus.OK);
+                } else {
+                    return new ResponseEntity<>("Vehicle not found", HttpStatus.NOT_FOUND);
+                }
+            }
+        }
+        return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
     }
 
 

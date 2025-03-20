@@ -18,10 +18,9 @@ import lombok.Setter;
 @Setter
 @Getter
 class User {
-    // Getters and setters
     private String username;
     private String password;
-    private String role; // Assuming role is either "fleet-manager" or customer
-
+    private String role; // "fleet-manager" or "customer"
+    private String authToken; // Store token for authentication
 }
 
