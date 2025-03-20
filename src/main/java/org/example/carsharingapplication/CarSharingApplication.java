@@ -43,6 +43,13 @@ public class CarSharingApplication {
         SpringApplication.run(CarSharingApplication.class, args);
     }
 
+    // User Management
+    @PostMapping("/users/register")
+    public ResponseEntity<String> registerUser(@RequestBody User user) {
+        users.put(user.getUsername(), user);
+        return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+    }
+
 
 
 }
