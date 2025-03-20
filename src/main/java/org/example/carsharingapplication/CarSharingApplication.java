@@ -67,6 +67,18 @@ public class CarSharingApplication {
         return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
     }
 
+    // Fleet Manager /users
+    @GetMapping("/users")
+    public ResponseEntity<?> getAllUsers(@RequestHeader("Authorization") String authToken) {
+        // Simulated role check for demonstration
+        if (users.get(authToken).getRole().equals("fleet-manager")) {
+            return new ResponseEntity<>(users.values(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Forbidden", HttpStatus.FORBIDDEN);
+        }
+    }
+
+
 
 
 }
