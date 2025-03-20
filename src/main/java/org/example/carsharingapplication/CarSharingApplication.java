@@ -50,6 +50,23 @@ public class CarSharingApplication {
         return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
     }
 
+    @PostMapping("/users/login")
+    public ResponseEntity<String> loginUser(@RequestHeader("Authorization") String auth) {
+        // Perform basic authentication check here
+        // Simulated logic for demonstration
+        if (auth.equals("Basic username:password")) {
+            return new ResponseEntity<>("Login successful", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Unauthorized", HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @PostMapping("/users/logout")
+    public ResponseEntity<String> logoutUser(@RequestHeader("Authorization") String authToken) {
+        // Perform logout logic here
+        return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
+    }
+
 
 
 }
