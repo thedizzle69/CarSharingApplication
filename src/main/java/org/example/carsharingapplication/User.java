@@ -1,26 +1,49 @@
 package org.example.carsharingapplication;
 
-//Getter and Setter Annotations:
-
-import lombok.Getter;
-import lombok.Setter;
-
 /**
- *
- * This class is the User class to be used by the Car Sharing Application.
+ * This class represents a User in the Car Sharing Application.
  *
  * @version 1.0
  * @since 13-03-2025
  * @author Jai SINGH
- *
  */
-
-@Setter
-@Getter
-class User {
+public class User {
     private String username;
     private String password;
-    private String role; // "fleet-manager" or "customer"
-    private String authToken; // Store token for authentication
-}
+    private String role; // "fleet-manager" or "driver"
 
+    // Constructor
+    public User() {}
+
+    public User(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    // Getters
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    // Setters
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+}

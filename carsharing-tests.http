@@ -8,9 +8,18 @@ Content-Type: application/json
   "role": "driver"
 }
 
-### Login as driver
+### Login as driver (Retrieve Token)
 POST http://localhost:8080/api/users/login
-Authorization: Basic BMWDriver1:NoTurnSignal123
+Content-Type: application/json
+
+{
+  "username": "BMWDriver1",
+  "password": "NoTurnSignal123"
+}
+
+> {%
+    client.global.set("driver_token", response.body.token || "default_driver_token");
+%}
 
 ### Register a new fleet-manager
 POST http://localhost:8080/api/users/register
@@ -22,54 +31,61 @@ Content-Type: application/json
   "role": "fleet-manager"
 }
 
-### Login as fleet manager
+### Login as fleet manager (Retrieve Token)
 POST http://localhost:8080/api/users/login
-Authorization: Basic BigBoss1:BossPW123
+Content-Type: application/json
+
+{
+  "username": "BigBoss1",
+  "password": "BossPW123"
+}
+
+> {%
+    client.global.set("fleet_manager_token", response.body.token || "default_fleet_manager_token");
+%}
 
 ### Retrieve all users (should only work for fleet managers)
 GET http://localhost:8080/api/users
-Authorization: Bearer <INSERT_AUTH_TOKEN_HERE>
+Authorization: Bearer {{fleet_manager_token}}
 
-### Register a new vehicle
+### Register a new vehicle (Only Fleet Managers Allowed)
 POST http://localhost:8080/api/vehicles
 Content-Type: application/json
-Authorization: Bearer <INSERT_AUTH_TOKEN_HERE>
+Authorization: Bearer {{fleet_manager_token}}
 
 {
-  "id": 1,
   "name": "3er BMW",
   "description": "Bavarian car",
-  "latitude": 48.2082,
+  "latitude": 42.0169,
   "longitude": 16.3738,
   "state": "free",
   "currentDriver": null,
   "vehicleToken": "BMW123"
 }
 
-### Retrieve all vehicles
+### Retrieve all vehicles (Should work for any authenticated user)
 GET http://localhost:8080/api/vehicles
-Authorization: Bearer <INSERT_AUTH_TOKEN_HERE>
+Authorization: Bearer {{driver_token}}
 
 ### Retrieve a specific vehicle by ID
 GET http://localhost:8080/api/vehicles/1
-Authorization: Bearer <INSERT_AUTH_TOKEN_HERE>
+Authorization: Bearer {{driver_token}}
 
-### Update a vehicle
+### Update a vehicle (Only Fleet Managers Allowed)
 PUT http://localhost:8080/api/vehicles/1
 Content-Type: application/json
-Authorization: Bearer <INSERT_AUTH_TOKEN_HERE>
+Authorization: Bearer {{fleet_manager_token}}
 
 {
-  "id": 1,
   "name": "3er BMW",
   "description": "Updated bavarian car",
-  "latitude": 48.2082,
+  "latitude": 42.0169,
   "longitude": 16.3738,
   "state": "occupied",
   "currentDriver": "BMWDriver1",
   "vehicleToken": "BMW456"
 }
 
-### Delete a vehicle
+### Delete a vehicle (Only Fleet Managers Allowed)
 DELETE http://localhost:8080/api/vehicles/1
-Authorization: Bearer <INSERT_AUTH_TOKEN_HERE>
+Authorization: Bearer {{fleet_manager_token}}

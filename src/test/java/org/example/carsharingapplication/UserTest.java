@@ -20,4 +20,5 @@ class UserTest {
         assertEquals("fleet-manager", user.getRole());
     }
 }
+
 */
