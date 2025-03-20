@@ -52,8 +52,7 @@ public class CarSharingApplication {
     }
 
     @PostMapping("/users/logout")
-    public ResponseEntity<String> logoutUser(@RequestHeader("Authorization") String authToken) {
-        // Perform logout logic here
+    public ResponseEntity<String> logoutUser() {
         return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
     }
 
