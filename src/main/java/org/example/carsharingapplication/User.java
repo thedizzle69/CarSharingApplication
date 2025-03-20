@@ -1,8 +1,9 @@
 package org.example.carsharingapplication;
 
 //Getter and Setter Annotations:
-//import lombok.Getter;
-//import lombok.Setter;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  *
@@ -14,34 +15,13 @@ package org.example.carsharingapplication;
  *
  */
 
+@Setter
+@Getter
 class User {
+    // Getters and setters
     private String username;
     private String password;
     private String role; // Assuming role is either "fleet-manager" or customer
 
-    // Getters and setters
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }
 
