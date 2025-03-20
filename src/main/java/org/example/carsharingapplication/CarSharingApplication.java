@@ -78,6 +78,12 @@ public class CarSharingApplication {
         }
     }
 
+    @PutMapping("/users/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable("id") String userId, @RequestBody User user) {
+        // Update logic here
+        users.put(userId, user);
+        return new ResponseEntity<>("User updated successfully", HttpStatus.OK);
+    }
 
 
 
