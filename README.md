@@ -8,7 +8,9 @@ Current Version 2.0 in production since 21-03-2025
 
 ## Testing with `carsharing-tests.http`
 
-A predefined `carsharing-tests.http` file is available for API testing. Load it into Postman or an HTTP client to automate requests.
+A predefined `carsharing-tests.http` file is available for API testing.
+Run the `/src/main/java/org.example.carsharingapplication/CarSharingApplication.java` file to start the application.
+Load the `carsharing-tests.http` it into an HTTP client to automate requests.
 
 ## Overview
 The Car Sharing Application is a Spring Boot-based REST API that facilitates user registration, authentication, and vehicle management for a car-sharing service. The application supports two user roles:
@@ -26,7 +28,7 @@ The Car Sharing Application is a Spring Boot-based REST API that facilitates use
 - **Spring Boot** (Spring Web)
 - **Java 21**
 - **Maven**
-- **Postman/http files** (for API testing)
+- **http files** (for API testing)
 
 ## Installation & Setup
 1. **Clone the repository:**
