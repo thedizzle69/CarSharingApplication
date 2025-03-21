@@ -10,6 +10,15 @@ Content-Type: application/json
   "role": "fleet-manager"
 }
 
+### Login with existing user but wrong password: Expected 400 because of wrong credentials
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+  "username": "BigBoss1",
+  "password": "WrongPassword"
+}
+
 ### Login as fleet manager (Retrieve Token): Expected 200 OK
 POST http://localhost:8080/api/users/login
 Content-Type: application/json
@@ -23,15 +32,6 @@ Content-Type: application/json
     client.global.set("fleet_manager_token", response.body.token || "mock_fleet_manager_token");
 %}
 
-
-### Login with existing user but wrong password: Expected 400 because of wrong credentials
-POST http://localhost:8080/api/users/login
-Content-Type: application/json
-
-{
-  "username": "BigBoss1",
-  "password": "WrongPassword"
-}
 
 ### Retrieve all vehicles (Should work for both roles): Expected 200 OK
 GET http://localhost:8080/api/vehicles
