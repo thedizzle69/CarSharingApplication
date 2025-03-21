@@ -15,7 +15,7 @@ import java.util.Map;
 
 /** This class is the main class to be used by the Car Sharing Application.
  *
- * @version 1.0
+ * @version 2.0
  * @since 13-03-2025
  * @author Jai SINGH
  *
