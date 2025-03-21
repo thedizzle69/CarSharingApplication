@@ -71,10 +71,10 @@ public class CarSharingApplication {
             return new ResponseEntity<>(Map.of("error", "Invalid credentials"), HttpStatus.BAD_REQUEST);
         }
 
-        // Generate a simple token (in a real app, use JWT)
+        // Generate a simple token
         String token = "token_" + username;
 
-        // Store token-to-user mapping (temporary solution)
+        // Store token-to-user mapping
         authTokens.put(token, user);
 
         return new ResponseEntity<>(Map.of("token", token), HttpStatus.OK);
