@@ -1,4 +1,6 @@
-### Wrong Login Attempt: Expected 401 Unauthorized
+// Normal User Stuff
+
+### Wrong Login Attempt: Expected 400 because of wrong credentials
 POST http://localhost:8080/api/users/login
 Content-Type: application/json
 
@@ -39,11 +41,11 @@ Authorization: Bearer {{driver_token}}
 GET http://localhost:8080/api/users
 Authorization: Bearer {{driver_token}}
 
-### Retrieve a specific vehicle by ID: Expected 404 Not Found
+### Driver trying to retrieve a specific vehicle by ID: Expected 404 Not Found
 GET http://localhost:8080/api/vehicles/1
 Authorization: Bearer {{driver_token}}
 
-### Driver trying to update a vehicle (Should fail): Expected 403 Forbidden
+### Driver trying to update a vehicle: Expected 403 Forbidden
 PUT http://localhost:8080/api/vehicles/1
 Content-Type: application/json
 Authorization: Bearer {{driver_token}}
@@ -53,11 +55,12 @@ Authorization: Bearer {{driver_token}}
   "description": "Driver should not be able to do this"
 }
 
-### Driver trying to delete a vehicle (Should fail): Expected 403 Forbidden
+### Driver trying to delete a vehicle: Expected 403 Forbidden
 DELETE http://localhost:8080/api/vehicles/1
 Authorization: Bearer {{driver_token}}
 
 
+//Fleet Manager Stuff
 
 ### Register a new fleet-manager: Expected 201 Created
 POST http://localhost:8080/api/users/register
@@ -111,14 +114,14 @@ Authorization: Bearer {{fleet_manager_token}}
 GET http://localhost:8080/api/vehicles/1
 Authorization: Bearer {{fleet_manager_token}}
 
-### Fleet manager updates a vehicle
+### Fleet manager updates a vehicle: Expected 200 OK
 PUT http://localhost:8080/api/vehicles/1
 Content-Type: application/json
 Authorization: Bearer {{fleet_manager_token}}
 
 {
-  "name": "Updated BMW",
-  "description": "Updated description",
+  "name": "Updated 3er BMW",
+  "description": "Updated bavarian car.",
   "latitude": 42.0169,
   "longitude": 16.3738,
   "state": "occupied",
@@ -126,6 +129,6 @@ Authorization: Bearer {{fleet_manager_token}}
   "vehicleToken": "BMW456"
 }
 
-### Fleet manager deletes a vehicle: Expected 204 No Content
+### Fleet manager deletes a vehicle: Expected 200 OK
 DELETE http://localhost:8080/api/vehicles/1
 Authorization: Bearer {{fleet_manager_token}}

@@ -35,17 +35,22 @@ public class CarSharingApplication {
         SpringApplication.run(CarSharingApplication.class, args);
     }
 
-    // Authentication method to avoid duplicate later
+    // Authentication method to avoid duplicate later with Token Bearer
 
-    private void authenticate(String authToken, String requiredRole) {
+    private void authenticate(String authHeader, String requiredRole) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized: Missing or invalid token");
+        }
+
+        String authToken = authHeader.substring(7); // Extract actual token after "Bearer "
+
         User user = authTokens.get(authToken);
-
         if (user == null) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized: Invalid token");
         }
 
         if (requiredRole != null && !user.getRole().equals(requiredRole)) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Forbidden: Insufficient permissions");
         }
     }
 
