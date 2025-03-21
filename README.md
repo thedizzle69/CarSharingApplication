@@ -24,7 +24,7 @@ The Car Sharing Application is a Spring Boot-based REST API that facilitates use
 
 ## Technologies Used
 - **Spring Boot** (Spring Web)
-- **Java 17**
+- **Java 21**
 - **Maven**
 - **Postman/http files** (for API testing)
 
