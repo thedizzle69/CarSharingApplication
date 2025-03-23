@@ -11,6 +11,11 @@ public class User {
     private String username;
     private String password;
     private String role; // "fleet-manager" or "driver"
+    private String firstName;
+    private String lastName;
+    private Integer age;
+    private String licenseNo;
+    private String creditCardNo;
 
     // Constructor
     public User() {}
@@ -19,6 +24,11 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.licenseNo = licenseNo;
+        this.creditCardNo = creditCardNo;
     }
 
     // Getters
@@ -34,6 +44,26 @@ public class User {
         return role;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public String getLicenseNo() {
+        return licenseNo;
+    }
+
+    public String getCreditCardNo() {
+        return creditCardNo;
+    }
+
     // Setters
     public void setUsername(String username) {
         this.username = username;
@@ -46,4 +76,25 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public void setLicenseNo(String licenseNo) {
+        this.licenseNo = licenseNo;
+    }
+
+    public void setCreditCardNumber(String creditCardNumber) {
+        this.creditCardNo = creditCardNo;
+    }
+
 }
