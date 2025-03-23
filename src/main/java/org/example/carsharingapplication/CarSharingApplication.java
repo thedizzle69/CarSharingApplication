@@ -15,7 +15,7 @@ import java.util.Map;
 
 /** This class is the main class to be used by the Car Sharing Application.
  *
- * @version 2.0
+ * @version 3.0
  * @since 13-03-2025
  * @author Jai SINGH
  *
@@ -108,12 +108,15 @@ public class CarSharingApplication {
     }
 
     @GetMapping("/vehicles")
-    public ResponseEntity<List<Vehicle>> getAllVehicles() {
+    public ResponseEntity<List<Vehicle>> getAllVehicles(@RequestHeader("Authorization") String authToken) {
+        authenticate(authToken, "fleet-manager");  // Using helper method for authentication and role check
         return new ResponseEntity<>(List.copyOf(vehicles.values()), HttpStatus.OK);
     }
 
     @GetMapping("/vehicles/{id}")
-    public ResponseEntity<Vehicle> getVehicleById(@PathVariable("id") long id) {
+    public ResponseEntity<Vehicle> getVehicleById(@PathVariable("id") long id,
+                                                  @RequestHeader("Authorization") String authToken) {
+        authenticate(authToken, "fleet-manager");
         Vehicle vehicle = vehicles.get(id);
         if (vehicle != null) {
             return new ResponseEntity<>(vehicle, HttpStatus.OK);

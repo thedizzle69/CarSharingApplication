@@ -3,7 +3,7 @@ package org.example.carsharingapplication;
 /**
  * This class represents a User in the Car Sharing Application.
  *
- * @version 2.0
+ * @version 3.0
  * @since 13-03-2025
  * @author Jai SINGH
  */
