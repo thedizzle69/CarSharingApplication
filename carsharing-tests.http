@@ -7,7 +7,12 @@ Content-Type: application/json
 {
   "username": "BigBoss1",
   "password": "BossPW123",
-  "role": "fleet-manager"
+  "role": "fleet-manager",
+  "firstName": "Jai",
+  "lastName": "Singh",
+  "age:": 33,
+  "licenseNo:": "010192",
+  "creditCardNo": "1234567890"
 }
 
 ### Login with existing user but wrong password: Expected 400 because of wrong credentials
@@ -93,7 +98,12 @@ Content-Type: application/json
 {
   "username": "BMWDriver1",
   "password": "NoTurnSignal123",
-  "role": "driver"
+  "role": "driver",
+  "firstName": "Johra-Markus",
+  "lastName": "Singh",
+  "age:": 33,
+  "licenseNo:": "010100",
+  "creditCardNo": "0987654322"
 }
 
 ### Login as driver (Retrieve Token): Expected 200 OK

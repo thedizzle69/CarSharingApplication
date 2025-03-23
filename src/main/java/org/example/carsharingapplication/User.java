@@ -93,7 +93,7 @@ public class User {
         this.licenseNo = licenseNo;
     }
 
-    public void setCreditCardNumber(String creditCardNumber) {
+    public void setCreditCardNo(String creditCardNo) {
         this.creditCardNo = creditCardNo;
     }
 
