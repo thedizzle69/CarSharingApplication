@@ -102,7 +102,8 @@ public class CarSharingApplication {
 
     // Vehicle Management
     @PostMapping("/vehicles")
-    public ResponseEntity<String> registerVehicle(@RequestBody Vehicle vehicle) {
+    public ResponseEntity<String> registerVehicle(@RequestBody Vehicle vehicle, @RequestHeader("Authorization") String authToken) {
+        authenticate(authToken, "fleet-manager");  // Using helper method for authentication and role check
         vehicles.put(vehicle.getId(), vehicle);
         return new ResponseEntity<>("Vehicle registered successfully", HttpStatus.CREATED);
     }
@@ -121,7 +122,7 @@ public class CarSharingApplication {
         if (vehicle != null) {
             return new ResponseEntity<>(vehicle, HttpStatus.OK);
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 

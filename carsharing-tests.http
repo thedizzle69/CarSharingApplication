@@ -15,7 +15,17 @@ Content-Type: application/json
   "creditCardNo": "1234567890"
 }
 
-### Login with existing user but wrong password: Expected 400 because of wrong credentials
+### Login as non-existent user: Expected 400 Bad Request
+
+POST http://localhost:8080/api/users/login
+Content-Type: application/json
+
+{
+  "username": "NonExistentUser",
+  "password": "NonExistentPassword"
+}
+
+### Login with existing user but wrong password: Expected 400 Bad Request
 POST http://localhost:8080/api/users/login
 Content-Type: application/json
 
@@ -128,7 +138,7 @@ Authorization: Bearer {{driver_token}}
 GET http://localhost:8080/api/users
 Authorization: Bearer {{driver_token}}
 
-### Driver trying to retrieve a specific vehicle by ID: Expected 404 Not Found
+### Driver trying to retrieve a specific vehicle by ID: Expected 403 Forbidden
 GET http://localhost:8080/api/vehicles/1
 Authorization: Bearer {{driver_token}}
 
