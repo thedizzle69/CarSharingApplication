@@ -1,7 +1,5 @@
 package org.example.carsharingapplication;
 
-import lombok.*;
-
 /**
  * This class represents a Vehicle in the Car Sharing Application.
  *
