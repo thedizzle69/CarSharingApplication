@@ -1,5 +1,7 @@
 package org.example.carsharingapplication;
 
+import lombok.*;
+
 /**
  * This class represents a Vehicle in the Car Sharing Application.
  *
@@ -7,6 +9,7 @@ package org.example.carsharingapplication;
  * @since 13-03-2025
  * @author Jai SINGH
  */
+
 public class Vehicle {
     private long id;
     private String name;
@@ -17,11 +20,7 @@ public class Vehicle {
     private String currentDriver;
     private String vehicleToken;
 
-    // Constructor
-    public Vehicle() {}
-
-    public Vehicle(long id, String name, String description, double latitude, double longitude,
-                   String state, String currentDriver, String vehicleToken) {
+    public Vehicle(long id, String name, String description, double latitude, double longitude, String state, String currentDriver, String vehicleToken) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -32,7 +31,15 @@ public class Vehicle {
         this.vehicleToken = vehicleToken;
     }
 
-    // Getters
+    //Constructor
+
+    public Vehicle() {
+    }
+
+    // Getters and Setters
+
+    //Getters
+
     public long getId() {
         return id;
     }
@@ -65,7 +72,8 @@ public class Vehicle {
         return vehicleToken;
     }
 
-    // Setters
+    //Setters
+
     public void setId(long id) {
         this.id = id;
     }
@@ -97,4 +105,5 @@ public class Vehicle {
     public void setVehicleToken(String vehicleToken) {
         this.vehicleToken = vehicleToken;
     }
+
 }

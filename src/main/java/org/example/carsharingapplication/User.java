@@ -1,5 +1,6 @@
 package org.example.carsharingapplication;
 
+
 /**
  * This class represents a User in the Car Sharing Application.
  *
@@ -7,6 +8,7 @@ package org.example.carsharingapplication;
  * @since 13-03-2025
  * @author Jai SINGH
  */
+
 public class User {
     private String username;
     private String password;
@@ -17,10 +19,7 @@ public class User {
     private String licenseNo;
     private String creditCardNo;
 
-    // Constructor
-    public User() {}
-
-    public User(String username, String password, String role) {
+    public User(String username, String password, String role, String firstName, String lastName, Integer age, String licenseNo, String creditCardNo) {
         this.username = username;
         this.password = password;
         this.role = role;
@@ -31,7 +30,15 @@ public class User {
         this.creditCardNo = creditCardNo;
     }
 
-    // Getters
+    //Constructor
+
+    public User() {
+    }
+
+    // Getters and Setters
+
+    //Getters
+
     public String getUsername() {
         return username;
     }
@@ -64,7 +71,8 @@ public class User {
         return creditCardNo;
     }
 
-    // Setters
+    //Setters
+
     public void setUsername(String username) {
         this.username = username;
     }
