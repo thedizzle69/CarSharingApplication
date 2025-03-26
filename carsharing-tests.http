@@ -5,7 +5,6 @@ POST http://localhost:8080/api/users/register
 Content-Type: application/json
 
 {
-  "UserID": 1,
   "username": "BigBoss1",
   "password": "BossPW123",
   "role": "fleet-manager",
@@ -49,7 +48,7 @@ Content-Type: application/json
 %}
 
 
-### Retrieve all vehicles (Should work for both roles): Expected 200 OK
+### Retrieve all vehicles: Expected 200 OK
 GET http://localhost:8080/api/vehicles
 Authorization: Bearer {{fleet_manager_token}}
 
@@ -63,7 +62,7 @@ Content-Type: application/json
 Authorization: Bearer {{fleet_manager_token}}
 
 {
-  "VehicleID": 1,
+  "id": 1,
   "name": "3er BMW",
   "description": "Bavarian car",
   "latitude": 42.0169,
@@ -87,7 +86,7 @@ Content-Type: application/json
 Authorization: Bearer {{fleet_manager_token}}
 
 {
-  "VehicleID": 1,
+  "id": 1,
   "name": "Updated 3er BMW",
   "description": "Updated bavarian car.",
   "latitude": 42.0169,
@@ -116,7 +115,6 @@ POST http://localhost:8080/api/users/register
 Content-Type: application/json
 
 {
-  "UserID": 2,
   "username": "BMWDriver1",
   "password": "NoTurnSignal123",
   "role": "driver",
@@ -141,7 +139,7 @@ Content-Type: application/json
 %}
 
 
-### Retrieve all vehicles (Should work for both roles): Expected 200 OK
+### Retrieve all vehicles: Expected 203 Forbidden
 GET http://localhost:8080/api/vehicles
 Authorization: Bearer {{driver_token}}
 
@@ -159,7 +157,7 @@ Content-Type: application/json
 Authorization: Bearer {{driver_token}}
 
 {
-  "VehicleID": 1,
+  "id": 1,
   "name": "Updated BMW",
   "description": "Driver should not be able to do this"
 }

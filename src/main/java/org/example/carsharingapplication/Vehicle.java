@@ -17,7 +17,7 @@ import lombok.*;
 @AllArgsConstructor
 
 public class Vehicle {
-    private long VehicleID;
+    private long id;
     private String name;
     private String description;
     private double latitude;
