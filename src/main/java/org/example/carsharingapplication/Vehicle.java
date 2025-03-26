@@ -17,7 +17,7 @@ import lombok.*;
 @AllArgsConstructor
 
 public class Vehicle {
-    private long id;
+    private long VehicleID;
     private String name;
     private String description;
     private double latitude;
@@ -25,5 +25,12 @@ public class Vehicle {
     private String state;
     private String currentDriver;
     private String vehicleToken;
+
+    // current timestamp
+    private long lastUpdated = System.currentTimeMillis();
+    // distance travelled
+    private double StartKM;
+    private double EndKM;
+    private double distanceTravelled;
 
 }

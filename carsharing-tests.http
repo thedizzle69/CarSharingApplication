@@ -5,6 +5,7 @@ POST http://localhost:8080/api/users/register
 Content-Type: application/json
 
 {
+  "UserID": 1,
   "username": "BigBoss1",
   "password": "BossPW123",
   "role": "fleet-manager",
@@ -62,14 +63,18 @@ Content-Type: application/json
 Authorization: Bearer {{fleet_manager_token}}
 
 {
-  "id": 1,
+  "VehicleID": 1,
   "name": "3er BMW",
   "description": "Bavarian car",
   "latitude": 42.0169,
   "longitude": 16.3738,
   "state": "free",
   "currentDriver": null,
-  "vehicleToken": "BMW123"
+  "vehicleToken": "BMW123",
+  "lastUpdated": 1620000000000,
+  "StartKM": 0,
+  "EndKM": 0,
+  "distanceTravelled": 0
 }
 
 ### Retrieve a specific vehicle by ID: Expected 200 OK
@@ -82,13 +87,18 @@ Content-Type: application/json
 Authorization: Bearer {{fleet_manager_token}}
 
 {
+  "VehicleID": 1,
   "name": "Updated 3er BMW",
   "description": "Updated bavarian car.",
   "latitude": 42.0169,
   "longitude": 16.3738,
   "state": "occupied",
   "currentDriver": "BMWDriver1",
-  "vehicleToken": "BMW456"
+  "vehicleToken": "BMW456",
+  "lastUpdated": 1620000000000,
+  "StartKM": 0,
+  "EndKM": 0,
+  "distanceTravelled": 0
 }
 
 
@@ -106,6 +116,7 @@ POST http://localhost:8080/api/users/register
 Content-Type: application/json
 
 {
+  "UserID": 2,
   "username": "BMWDriver1",
   "password": "NoTurnSignal123",
   "role": "driver",
@@ -148,6 +159,7 @@ Content-Type: application/json
 Authorization: Bearer {{driver_token}}
 
 {
+  "VehicleID": 1,
   "name": "Updated BMW",
   "description": "Driver should not be able to do this"
 }

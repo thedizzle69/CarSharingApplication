@@ -18,6 +18,8 @@ import lombok.*;
 @AllArgsConstructor
 
 public class User {
+
+    private long UserID;
     private String username;
     private String password;
     private String role; // "fleet-manager" or "driver"
