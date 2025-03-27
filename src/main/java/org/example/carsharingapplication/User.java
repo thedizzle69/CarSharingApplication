@@ -1,21 +1,18 @@
 package org.example.carsharingapplication;
 
-
 import lombok.*;
 
 /**
- * This class represents a User in the Car Sharing Application.
+ * This class represents a Vehicle in the Car Sharing Application.
  *
  * @version 3.0
- * @since 13-03-2025
+ * @since 26-03-2025
  * @author Jai SINGH
  */
 
-@Getter
-@Setter
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 
 public class User {
 
@@ -29,3 +26,5 @@ public class User {
     private String creditCardNo;
 
 }
+
+

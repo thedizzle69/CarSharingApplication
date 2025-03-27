@@ -6,12 +6,10 @@ import lombok.*;
  * This class represents a Vehicle in the Car Sharing Application.
  *
  * @version 2.0
- * @since 13-03-2025
+ * @since 26-03-2025
  * @author Jai SINGH
  */
 
-@Getter
-@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

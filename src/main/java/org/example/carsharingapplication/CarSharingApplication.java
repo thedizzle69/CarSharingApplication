@@ -15,8 +15,8 @@ import java.util.Map;
 
 /** This class is the main class to be used by the Car Sharing Application.
  *
- * @version 3.0
- * @since 13-03-2025
+ * @version 4.0
+ * @since 26-03-2025
  * @author Jai SINGH
  *
  *
@@ -55,11 +55,17 @@ public class CarSharingApplication {
     }
 
     // User Management
+
+    //Registering (Username must be unique)
     @PostMapping("/users/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
+        if (users.containsKey(user.getUsername())) {
+            return new ResponseEntity<>("User already exists!", HttpStatus.CONFLICT);
+        }
         users.put(user.getUsername(), user);
-        return new ResponseEntity<>("User registered successfully", HttpStatus.CREATED);
+        return new ResponseEntity<>("User registered successfully!", HttpStatus.CREATED);
     }
+
 
     @PostMapping("/users/login")
     public ResponseEntity<Map<String, String>> loginUser(@RequestBody Map<String, String> credentials) {
@@ -81,7 +87,8 @@ public class CarSharingApplication {
     }
 
     @PostMapping("/users/logout")
-    public ResponseEntity<String> logoutUser() {
+    public ResponseEntity<String> logoutUser(@RequestHeader("Authorization") String authToken) {
+        authTokens.remove(authToken.substring(7)); // Remove token from storage
         return new ResponseEntity<>("Logged out successfully", HttpStatus.OK);
     }
 
@@ -103,10 +110,16 @@ public class CarSharingApplication {
     // Vehicle Management
     @PostMapping("/vehicles")
     public ResponseEntity<String> registerVehicle(@RequestBody Vehicle vehicle, @RequestHeader("Authorization") String authToken) {
-        authenticate(authToken, "fleet-manager");  // Using helper method for authentication and role check
+        authenticate(authToken, "fleet-manager");  // Ensures only fleet-managers can register vehicles
+
+        if (vehicles.containsKey(vehicle.getId())) {
+            return new ResponseEntity<>("Vehicle with this ID already exists!", HttpStatus.CONFLICT);
+        }
+
         vehicles.put(vehicle.getId(), vehicle);
         return new ResponseEntity<>("Vehicle registered successfully", HttpStatus.CREATED);
     }
+
 
     @GetMapping("/vehicles")
     public ResponseEntity<List<Vehicle>> getAllVehicles(@RequestHeader("Authorization") String authToken) {

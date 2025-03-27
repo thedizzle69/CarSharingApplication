@@ -4,13 +4,39 @@ CarSharingApplication for the course Software Architecture and Middleware on the
 ## Versions
 
 Program worked on since 13-03-2025
-Current Version 2.0 in production since 21-03-2025
+Current Version 4.0 in production since 26-03-2025
 
 ## Testing with `carsharing-tests.http`
 
 A predefined `carsharing-tests.http` file is available for API testing.
-Run the `/src/main/java/org.example.carsharingapplication/CarSharingApplication.java` file to start the application.
+Run the `/src/main/java/sam4.carsharingapplication/CarSharingApplication.java` file to start the application.
 Load the `carsharing-tests.http` it into an HTTP client to automate requests.
+
+Following tests are implemented in the `carsharing-tests.http` file in this order:
+
+- Register a new user (Fleet Manager) (201 Created)
+- Register with same username (409 Conflict)
+- Login as non-existent user (400 Bad Request)
+- Login with existing user but wrong password (400 Bad Request)
+- Login as fleet manager (Retrieve Token): (200 OK)
+- Retrieve all vehicles as Fleet-Manager (200 OK)
+- Fleet manager retrieves all users (200 OK)
+- Fleet manager registers a new vehicle (201 Created)
+- Retrieve a specific vehicle by ID (200 OK)
+- Fleet manager updates a vehicle (200 OK)
+- Wrong Login Attempt (400 Bad Request)
+- Register a normal user (Driver) (201 Created)
+- Login as driver (Retrieve Token) (200 OK)
+- Retrieve all vehicles (203 Forbidden)
+- Driver trying to retrieve all users (Should fail) (403 Forbidden)
+- Driver trying to retrieve a specific vehicle by ID (403 Forbidden)
+- Driver trying to update a vehicle (403 Forbidden)
+- Fleet manager wants to register an already existing vehicle (409 Conflict)
+- Driver trying to delete a vehicle (403 Forbidden)
+- Fleet manager deletes a vehicle (200 OK)
+- Logging out as driver (200 OK)
+- Logging out as fleet manager (200 OK)
+
 
 ## Overview
 The Car Sharing Application is a Spring Boot-based REST API that facilitates user registration, authentication, and vehicle management for a car-sharing service. The application supports two user roles:
@@ -31,11 +57,8 @@ The Car Sharing Application is a Spring Boot-based REST API that facilitates use
 - **http files** (for API testing)
 
 ## Installation & Setup
-1. **Clone the repository:**
-   ```sh
-   git clone https://github.com/thedizzle69/CarSharingApplication
-   ```
-2. **Build and run the application:**
+
+1.**Build and run the application:**
    ```sh
    mvn spring-boot:run
    ```
@@ -67,4 +90,10 @@ The Car Sharing Application is a Spring Boot-based REST API that facilitates use
   Authorization: Bearer token_username
   ```
 
+
+## OpenAI
+
+AI tries a lot. Too much. It's like a child. It's like a child who's trying to learn how to walk. (Last part is also Copilot dissing itself).
+
+No seriously. It is ok to let you help and you don't have to write too much manually. But it is a tool. Not more. 
 
