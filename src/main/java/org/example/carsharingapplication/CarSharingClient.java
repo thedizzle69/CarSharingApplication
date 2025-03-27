@@ -8,7 +8,7 @@ import java.util.Map;
 /*
  * This class is the main class to be used by the Car Sharing Client.
  * It sends HTTP requests to the Car Sharing Application.
- * @version 2.0
+ * @version 3.0
  * @since 27-03-2025
  * @author Jai SINGH
  */
@@ -35,6 +35,7 @@ public class CarSharingClient {
         getAllVehicles();
         getVehicleById(1);
         updateVehicle(1);
+        exportVehiclesToCsv();
         deleteVehicle(1);
         getAllVehicles();
         logoutUser();
@@ -140,6 +141,13 @@ public class CarSharingClient {
     private static void deleteVehicle(int vehicleId) {
         sendDeleteRequest(BASE_URL + "/vehicles/" + vehicleId);
     }
+
+    // Export all vehicles to CSV
+    private static void exportVehiclesToCsv() {
+        sendGetRequest(BASE_URL + "/vehicles/export/csv");
+    }
+
+    // Driver Workflow
 
     // Register a driver
     private static void registerDriver() {
