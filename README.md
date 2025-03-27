@@ -41,6 +41,7 @@ Following tests are implemented in the `carsharing-tests.http` file in this orde
 - Driver trying to retrieve a specific vehicle by ID (403 Forbidden)
 - Driver trying to update a vehicle (403 Forbidden)
 - Fleet manager wants to register an already existing vehicle (409 Conflict)
+- Export vehicles to csv file (Fleet manager) (200 OK)
 - Driver trying to delete a vehicle (403 Forbidden)
 - Fleet manager deletes a vehicle (200 OK)
 - Logging out as driver (200 OK)
@@ -91,6 +92,7 @@ The Car Sharing Application is a Spring Boot-based REST API that facilitates use
 | GET | `/vehicles/{id}` | Retrieve a vehicle by ID |
 | PUT | `/vehicles/{id}` | Update a vehicle (Fleet Manager only) |
 | DELETE | `/vehicles/{id}` | Delete a vehicle (Fleet Manager only) |
+| GET    | `/vehicles/export` | Get a vehicles.csv back in http request.    |
 
 ## Authentication
 - **Login** returns a token in this format: `Bearer token_username`.
