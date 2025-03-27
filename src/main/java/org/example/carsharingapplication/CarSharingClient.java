@@ -34,6 +34,7 @@ public class CarSharingClient {
     private static void testDriverWorkflow() {
         registerDriver();
         loginDriver();
+        // attemptUnauthorizedActions(); // Uncomment to test unauthorized actions
         logoutUser();
     }
 
