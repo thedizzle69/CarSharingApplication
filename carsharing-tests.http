@@ -197,7 +197,7 @@ Authorization: Bearer {{fleet_manager_token}}
   "distanceTravelled": 0
 }
 
-### Export vehicles to csv file
+### Export vehicles to csv file (Fleet manager): Expected 200 OK
 GET http://localhost:8080/api/vehicles/export
 Content-Type: application/json
 Authorization: Bearer {{fleet_manager_token}}
