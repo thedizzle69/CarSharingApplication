@@ -5,6 +5,14 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
+/*
+ * This class is the main class to be used by the Car Sharing Client.
+ * It sends HTTP requests to the Car Sharing Application.
+ * @version 2.0
+ * @since 27-03-2025
+ * @author Jai SINGH
+ */
+
 public class CarSharingClient {
 
     private static final String BASE_URL = "http://localhost:8080/api";
