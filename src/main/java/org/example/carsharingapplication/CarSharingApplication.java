@@ -66,9 +66,9 @@ public class CarSharingApplication {
     public ResponseEntity<byte[]> exportVehiclesAsCsv(@RequestHeader("Authorization") String authToken) {
         authenticate(authToken, "fleet-manager"); // Only fleet managers can export
 
-        String csvData = "ID,Name,Description,State,Current Driver\n" +
+        String csvData = "ID,Name,Description,State,Current Driver,Latitude,Longitude,VehicleToken\n" +
                 vehicles.values().stream()
-                        .map(v -> v.getId() + "," + v.getName() + "," + v.getDescription() + "," + v.getState() + "," + v.getCurrentDriver())
+                        .map(v -> v.getId() + "," + v.getName() + "," + v.getDescription() + "," + v.getState() + "," + v.getCurrentDriver() + "," + v.getLatitude() + "," + v.getLongitude() + "," + v.getVehicleToken())
                         .collect(Collectors.joining("\n"));
 
         byte[] bytes = csvData.getBytes();
@@ -78,6 +78,7 @@ public class CarSharingApplication {
 
         return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
     }
+
     // User Management
 
     //Registering (Username must be unique)
