@@ -4,7 +4,7 @@ CarSharingApplication for the course Software Architecture and Middleware on the
 ## Versions
 
 Program worked on since 13-03-2025
-Current Version 4.0 in production since 26-03-2025
+Current Version 5.0 in production since 27-03-2025
 
 ## Testing with `CarSharingClient.java`
 
