@@ -30,12 +30,13 @@ public class CarSharingClient {
     private static void testFleetManagerWorkflow() {
         registerUser();
         loginUser();
-        getAllVehicles();
         getAllUsers();
         registerVehicle();
+        getAllVehicles();
         getVehicleById(1);
         updateVehicle(1);
         deleteVehicle(1);
+        getAllVehicles();
         logoutUser();
     }
 
