@@ -6,10 +6,18 @@ CarSharingApplication for the course Software Architecture and Middleware on the
 Program worked on since 13-03-2025
 Current Version 4.0 in production since 26-03-2025
 
+## Testing with `CarSharingClient.java`
+
+A predefined `CarSharingClient.java` file is available for API testing.
+Run the `/src/main/java/org.example.carsharingapplication/CarSharingApplication.java` file to start the application.
+Run the `/src/main/java/org.example.carsharingapplication/CarSharingClient.java` file to test the API.
+The Forbidden Action Test for the driver is commented out in the `CarSharingClient.java` file. Uncomment it to test the forbidden action.
+In the http test it is activated and will return 403 Forbidden.
+
 ## Testing with `carsharing-tests.http`
 
 A predefined `carsharing-tests.http` file is available for API testing.
-Run the `/src/main/java/sam4.carsharingapplication/CarSharingApplication.java` file to start the application.
+Run the `/src/main/java/org.example.carsharingapplication/CarSharingApplication.java` file to start the application.
 Load the `carsharing-tests.http` it into an HTTP client to automate requests.
 
 Following tests are implemented in the `carsharing-tests.http` file in this order:
