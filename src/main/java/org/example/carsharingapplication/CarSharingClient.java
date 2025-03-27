@@ -37,7 +37,7 @@ public class CarSharingClient {
         logoutUser();
     }
 
-    // 🟢 Register a new user (Fleet Manager)
+    // Register a new user (Fleet Manager)
     private static void registerUser() {
         String url = BASE_URL + "/users/register";
         Map<String, Object> requestBody = Map.of(
@@ -54,7 +54,7 @@ public class CarSharingClient {
         sendPostRequest(url, requestBody);
     }
 
-    // 🔵 Login as fleet manager and store token
+    // Login as fleet manager and store token
     private static void loginUser() {
         String url = BASE_URL + "/users/login";
         Map<String, String> requestBody = Map.of(
@@ -69,7 +69,7 @@ public class CarSharingClient {
         }
     }
 
-    // 🚗 Register a new vehicle
+    // Register a new vehicle
     private static void registerVehicle() {
         String url = BASE_URL + "/vehicles";
         Map<String, Object> requestBody = Map.ofEntries(
@@ -90,22 +90,22 @@ public class CarSharingClient {
         sendPostRequestWithAuth(url, requestBody);
     }
 
-    // 🏎️ Get all vehicles
+    // Get all vehicles
     private static void getAllVehicles() {
         sendGetRequest(BASE_URL + "/vehicles");
     }
 
-    // 👥 Get all users (Only Fleet Managers can)
+    // Get all users (Only Fleet Managers can)
     private static void getAllUsers() {
         sendGetRequest(BASE_URL + "/users");
     }
 
-    // 🏎️ Get specific vehicle by ID
+    // Get specific vehicle by ID
     private static void getVehicleById(int vehicleId) {
         sendGetRequest(BASE_URL + "/vehicles/" + vehicleId);
     }
 
-    // 🛠️ Update a vehicle
+    // Update a vehicle
     private static void updateVehicle(int vehicleId) {
         String url = BASE_URL + "/vehicles/" + vehicleId;
         Map<String, Object> requestBody = Map.ofEntries(
@@ -126,12 +126,12 @@ public class CarSharingClient {
         sendPutRequestWithAuth(url, requestBody);
     }
 
-    // ❌ Delete a vehicle
+    // Delete a vehicle
     private static void deleteVehicle(int vehicleId) {
         sendDeleteRequest(BASE_URL + "/vehicles/" + vehicleId);
     }
 
-    // 🚗 Register a driver
+    // Register a driver
     private static void registerDriver() {
         String url = BASE_URL + "/users/register";
         Map<String, Object> requestBody = Map.of(
@@ -148,7 +148,7 @@ public class CarSharingClient {
         sendPostRequest(url, requestBody);
     }
 
-    // 🔵 Login as driver
+    // Login as driver
     private static void loginDriver() {
         String url = BASE_URL + "/users/login";
         Map<String, String> requestBody = Map.of(
@@ -163,18 +163,18 @@ public class CarSharingClient {
         }
     }
 
-    // 🚫 Attempt unauthorized actions as a driver
+    // Attempt unauthorized actions as a driver
     private static void attemptUnauthorizedActions() {
         sendGetRequest(BASE_URL + "/vehicles"); // Expected: Forbidden
         sendGetRequest(BASE_URL + "/users");    // Expected: Forbidden
     }
 
-    // 🚪 Logout user
+    // Logout user
     private static void logoutUser() {
         sendPostRequestWithAuth(BASE_URL + "/users/logout", Map.of());
     }
 
-    // 📤 Generic POST request
+    // Generic POST request
     private static ResponseEntity<String> sendPostRequest(String url, Map<String, ?> requestBody) {
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(url, requestBody, String.class);
@@ -186,7 +186,7 @@ public class CarSharingClient {
         }
     }
 
-    // 📤 POST request with Authorization
+    // POST request with Authorization
     private static void sendPostRequestWithAuth(String url, Map<String, ?> requestBody) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authToken);
@@ -197,7 +197,7 @@ public class CarSharingClient {
         System.out.println("POST (Auth) " + url + " -> " + response.getStatusCode() + " | " + response.getBody());
     }
 
-    // 📥 Generic GET request
+    // Generic GET request
     private static void sendGetRequest(String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authToken);
@@ -207,7 +207,7 @@ public class CarSharingClient {
         System.out.println("GET " + url + " -> " + response.getStatusCode() + " | " + response.getBody());
     }
 
-    // 🔄 PUT request with Authorization
+    // PUT request with Authorization
     private static void sendPutRequestWithAuth(String url, Map<String, ?> requestBody) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authToken);
@@ -218,7 +218,7 @@ public class CarSharingClient {
         System.out.println("PUT " + url + " -> " + response.getStatusCode() + " | " + response.getBody());
     }
 
-    // ❌ DELETE request with Authorization
+    // DELETE request with Authorization
     private static void sendDeleteRequest(String url) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authToken);
