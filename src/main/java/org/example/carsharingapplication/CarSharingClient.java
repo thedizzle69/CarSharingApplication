@@ -1,184 +1,235 @@
 package org.example.carsharingapplication;
 
 import org.springframework.http.*;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+
 import java.util.Map;
 
 public class CarSharingClient {
 
     private static final String BASE_URL = "http://localhost:8080/api";
     private static final RestTemplate restTemplate = new RestTemplate();
-    private static String fleetManagerToken = null;
-    private static String driverToken = null;
+    private static String authToken = null; // Stores authentication token after login
 
     public static void main(String[] args) {
+        System.out.println("--- Fleet Manager Workflow ---");
         testFleetManagerWorkflow();
+
+        System.out.println("--- Driver Workflow ---");
         testDriverWorkflow();
     }
 
     private static void testFleetManagerWorkflow() {
-        System.out.println("--- Fleet Manager Workflow ---");
-        registerUser("BigBoss1", "BossPW123", "fleet-manager");
-        registerUser("BigBoss1", "BossPW123", "fleet-manager"); // Expected 409 Conflict
-        loginUser("BigBoss1", "BossPW123", true);
+        registerUser();
+        loginUser();
         getAllVehicles();
         getAllUsers();
-        registerVehicle(1);
+        registerVehicle();
         getVehicleById(1);
         updateVehicle(1);
         deleteVehicle(1);
-        logout(fleetManagerToken);
+        logoutUser();
     }
 
     private static void testDriverWorkflow() {
-        System.out.println("--- Driver Workflow ---");
-        registerUser("BMWDriver1", "NoTurnSignal123", "driver");
-        loginUser("BMWDriver1", "NoTurnSignal123", false);
-        getAllVehiclesForbidden(driverToken);
-        getAllUsersForbidden(driverToken);
-        logout(driverToken);
+        registerDriver();
+        loginDriver();
+        attemptUnauthorizedActions();
+        logoutUser();
     }
 
-    private static void registerUser(String username, String password, String role) {
+    // 🟢 Register a new user (Fleet Manager)
+    private static void registerUser() {
         String url = BASE_URL + "/users/register";
         Map<String, Object> requestBody = Map.of(
-                "username", username,
-                "password", password,
-                "role", role,
-                "firstName", "John",
-                "lastName", "Doe",
-                "age", 30,
-                "licenseNo", "123456",
-                "creditCardNo", "1234123412341234"
+                "username", "BigBoss1",
+                "password", "BossPW123",
+                "role", "fleet-manager",
+                "firstName", "Jai",
+                "lastName", "Singh",
+                "age", 33,
+                "licenseNo", "010192",
+                "creditCardNo", "1234567890"
         );
+
         sendPostRequest(url, requestBody);
     }
 
-    private static void loginUser(String username, String password, boolean isFleetManager) {
+    // 🔵 Login as fleet manager and store token
+    private static void loginUser() {
         String url = BASE_URL + "/users/login";
-        Map<String, String> requestBody = Map.of("username", username, "password", password);
-        ResponseEntity<Map> response = sendPostRequest(url, requestBody);
+        Map<String, String> requestBody = Map.of(
+                "username", "BigBoss1",
+                "password", "BossPW123"
+        );
+
+        ResponseEntity<String> response = sendPostRequest(url, requestBody);
         if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            String token = "Bearer " + response.getBody().get("token");
-            if (isFleetManager) fleetManagerToken = token;
-            else driverToken = token;
-            System.out.println(username + " logged in successfully.");
+            authToken = "Bearer " + extractToken(response.getBody());
+            System.out.println("Login Successful: " + authToken);
         }
     }
 
-    private static void getAllVehicles() {
-        sendGetRequest(BASE_URL + "/vehicles", fleetManagerToken);
-    }
-
-    private static void getAllUsers() {
-        sendGetRequest(BASE_URL + "/users", fleetManagerToken);
-    }
-
-    private static void registerVehicle(int vehicleId) {
+    // 🚗 Register a new vehicle
+    private static void registerVehicle() {
         String url = BASE_URL + "/vehicles";
-        Map<String, Object> requestBody = Map.of(
-                "id", vehicleId,
-                "name", "3er BMW",
-                "description", "Bavarian car",
-                "latitude", 42.0169,
-                "longitude", 16.3738,
-                "state", "free",
-                "currentDriver", null,
-                "vehicleToken", "BMW123"
+        Map<String, Object> requestBody = Map.ofEntries(
+                Map.entry ("id", 1),
+                Map.entry ("name", "3er BMW"),
+                Map.entry ("description", "Bavarian car"),
+                Map.entry ("latitude", 42.0169),
+                Map.entry ("longitude", 16.3738),
+                Map.entry ("state", "free"),
+                Map.entry ("currentDriver", null),
+                Map.entry ("vehicleToken", "BMW123"),
+                Map.entry ("lastUpdated", 1620000000000L),
+                Map.entry ("StartKM", 0),
+                Map.entry ("EndKM", 0),
+                Map.entry ("distanceTravelled", 0)
         );
-        sendPostRequest(url, requestBody, fleetManagerToken);
+
+        sendPostRequestWithAuth(url, requestBody);
     }
 
+    // 🏎️ Get all vehicles
+    private static void getAllVehicles() {
+        sendGetRequest(BASE_URL + "/vehicles");
+    }
+
+    // 👥 Get all users (Only Fleet Managers can)
+    private static void getAllUsers() {
+        sendGetRequest(BASE_URL + "/users");
+    }
+
+    // 🏎️ Get specific vehicle by ID
     private static void getVehicleById(int vehicleId) {
-        sendGetRequest(BASE_URL + "/vehicles/" + vehicleId, fleetManagerToken);
+        sendGetRequest(BASE_URL + "/vehicles/" + vehicleId);
     }
 
+    // 🛠️ Update a vehicle
     private static void updateVehicle(int vehicleId) {
         String url = BASE_URL + "/vehicles/" + vehicleId;
-        Map<String, Object> requestBody = Map.of(
-                "id", vehicleId,
-                "name", "Updated BMW",
-                "description", "Updated Bavarian car",
-                "latitude", 42.0169,
-                "longitude", 16.3738,
-                "state", "occupied",
-                "currentDriver", "BMWDriver1",
-                "vehicleToken", "BMW456"
+        Map<String, Object> requestBody = Map.ofEntries(
+                Map.entry("id", vehicleId),
+                Map.entry("name", "Updated 3er BMW"),
+                Map.entry("description", "Updated bavarian car."),
+                Map.entry("latitude", 42.0169),
+                Map.entry("longitude", 16.3738),
+                Map.entry("state", "occupied"),
+                Map.entry("currentDriver", "BMWDriver1"),
+                Map.entry("vehicleToken", "BMW456"),
+                Map.entry("lastUpdated", 1620000000000L),
+                Map.entry("StartKM", 0),
+                Map.entry("EndKM", 0),
+                Map.entry("distanceTravelled", 0)
         );
-        sendPutRequest(url, requestBody, fleetManagerToken);
+
+        sendPutRequestWithAuth(url, requestBody);
     }
 
+    // ❌ Delete a vehicle
     private static void deleteVehicle(int vehicleId) {
-        sendDeleteRequest(BASE_URL + "/vehicles/" + vehicleId, fleetManagerToken);
+        sendDeleteRequest(BASE_URL + "/vehicles/" + vehicleId);
     }
 
-    private static void getAllVehiclesForbidden(String token) {
-        sendGetRequestForbidden(BASE_URL + "/vehicles", token);
+    // 🚗 Register a driver
+    private static void registerDriver() {
+        String url = BASE_URL + "/users/register";
+        Map<String, Object> requestBody = Map.of(
+                "username", "BMWDriver1",
+                "password", "NoTurnSignal123",
+                "role", "driver",
+                "firstName", "Johra-Markus",
+                "lastName", "Singh",
+                "age", 33,
+                "licenseNo", "010100",
+                "creditCardNo", "0987654322"
+        );
+
+        sendPostRequest(url, requestBody);
     }
 
-    private static void getAllUsersForbidden(String token) {
-        sendGetRequestForbidden(BASE_URL + "/users", token);
+    // 🔵 Login as driver
+    private static void loginDriver() {
+        String url = BASE_URL + "/users/login";
+        Map<String, String> requestBody = Map.of(
+                "username", "BMWDriver1",
+                "password", "NoTurnSignal123"
+        );
+
+        ResponseEntity<String> response = sendPostRequest(url, requestBody);
+        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+            authToken = "Bearer " + extractToken(response.getBody());
+            System.out.println("Driver Login Successful: " + authToken);
+        }
     }
 
-    private static void logout(String token) {
-        sendPostRequest(BASE_URL + "/users/logout", Map.of(), token);
+    // 🚫 Attempt unauthorized actions as a driver
+    private static void attemptUnauthorizedActions() {
+        sendGetRequest(BASE_URL + "/vehicles"); // Expected: Forbidden
+        sendGetRequest(BASE_URL + "/users");    // Expected: Forbidden
     }
 
-    private static ResponseEntity<Map> sendPostRequest(String url, Map<String, ?> body) {
-        return sendPostRequest(url, body, null);
+    // 🚪 Logout user
+    private static void logoutUser() {
+        sendPostRequestWithAuth(BASE_URL + "/users/logout", Map.of());
     }
 
-    private static ResponseEntity<Map> sendPostRequest(String url, Map<String, ?> body, String token) {
+    // 📤 Generic POST request
+    private static ResponseEntity<String> sendPostRequest(String url, Map<String, ?> requestBody) {
+        try {
+            ResponseEntity<String> response = restTemplate.postForEntity(url, requestBody, String.class);
+            System.out.println("POST " + url + " -> " + response.getStatusCode() + " | " + response.getBody());
+            return response;
+        } catch (Exception e) {
+            System.err.println("Error during POST request to " + url + ": " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // 📤 POST request with Authorization
+    private static void sendPostRequestWithAuth(String url, Map<String, ?> requestBody) {
         HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", authToken);
         headers.setContentType(MediaType.APPLICATION_JSON);
-        if (token != null) headers.set("Authorization", token);
-        HttpEntity<Map<String, ?>> entity = new HttpEntity<>(body, headers);
-        try {
-            return restTemplate.exchange(url, HttpMethod.POST, entity, Map.class);
-        } catch (HttpStatusCodeException e) {
-            System.out.println("POST " + url + " -> " + e.getStatusCode());
-            return new ResponseEntity<>(e.getStatusCode());
-        }
+
+        HttpEntity<Map<String, ?>> entity = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        System.out.println("POST (Auth) " + url + " -> " + response.getStatusCode() + " | " + response.getBody());
     }
 
-    private static void sendGetRequest(String url, String token) {
+    // 📥 Generic GET request
+    private static void sendGetRequest(String url) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token);
+        headers.set("Authorization", authToken);
+
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        try {
-            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-            System.out.println("GET " + url + " -> " + response.getStatusCode());
-        } catch (HttpStatusCodeException e) {
-            System.out.println("GET " + url + " -> " + e.getStatusCode());
-        }
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
+        System.out.println("GET " + url + " -> " + response.getStatusCode() + " | " + response.getBody());
     }
 
-    private static void sendGetRequestForbidden(String url, String token) {
+    // 🔄 PUT request with Authorization
+    private static void sendPutRequestWithAuth(String url, Map<String, ?> requestBody) {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token);
+        headers.set("Authorization", authToken);
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<Map<String, ?>> entity = new HttpEntity<>(requestBody, headers);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
+        System.out.println("PUT " + url + " -> " + response.getStatusCode() + " | " + response.getBody());
+    }
+
+    // ❌ DELETE request with Authorization
+    private static void sendDeleteRequest(String url) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", authToken);
+
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        try {
-            restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
-            System.out.println("ERROR: " + url + " should have returned 403");
-        } catch (HttpStatusCodeException e) {
-            System.out.println("GET " + url + " -> " + e.getStatusCode());
-        }
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
+        System.out.println("DELETE " + url + " -> " + response.getStatusCode() + " | " + response.getBody());
     }
 
-    private static void sendPutRequest(String url, Map<String, ?> body, String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token);
-        HttpEntity<Map<String, ?>> entity = new HttpEntity<>(body, headers);
-        restTemplate.exchange(url, HttpMethod.PUT, entity, String.class);
-        System.out.println("PUT " + url + " -> 200 OK");
-    }
-
-    private static void sendDeleteRequest(String url, String token) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-        restTemplate.exchange(url, HttpMethod.DELETE, entity, String.class);
-        System.out.println("DELETE " + url + " -> 200 OK");
+    private static String extractToken(String responseBody) {
+        return responseBody.replace("{\"token\":\"", "").replace("\"}", "");
     }
 }
