@@ -13,6 +13,7 @@ Run the `/src/main/java/org.example.carsharingapplication/CarSharingApplication.
 Run the `/src/main/java/org.example.carsharingapplication/CarSharingClient.java` file to test the API.
 The Forbidden Action Test for the driver is commented out in the `CarSharingClient.java` file. Uncomment it to test the forbidden action.
 In the http test it is activated and will return 403 Forbidden.
+Via the link 'http://localhost:8080/swagger-ui/index.html' you can also visualize the API and test it. 
 
 ## Testing with `carsharing-tests.http`
 
