@@ -144,9 +144,12 @@ public class CarSharingClient {
 
     // Export all vehicles to CSV
     private static void exportVehiclesToCsv() {
-        sendGetRequest(BASE_URL + "/vehicles/export/csv");
+        sendGetRequest(BASE_URL + "/vehicles/export");
         System.out.println("Exported vehicles to CSV");
     }
+
+
+
 
     // Driver Workflow
 
