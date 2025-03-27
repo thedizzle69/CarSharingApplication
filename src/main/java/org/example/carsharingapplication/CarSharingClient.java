@@ -80,7 +80,7 @@ public class CarSharingClient {
                 Map.entry ("latitude", 42.0169),
                 Map.entry ("longitude", 16.3738),
                 Map.entry ("state", "free"),
-                Map.entry ("currentDriver", null),
+                Map.entry ("currentDriver", "none"),
                 Map.entry ("vehicleToken", "BMW123"),
                 Map.entry ("lastUpdated", 1620000000000L),
                 Map.entry ("StartKM", 0),
