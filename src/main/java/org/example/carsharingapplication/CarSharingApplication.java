@@ -3,7 +3,9 @@ package org.example.carsharingapplication;
 //Springboot imports
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,6 +14,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+//Export to csv file
+import java.util.stream.Collectors;
 
 /** This class is the main class to be used by the Car Sharing Application.
  *
@@ -54,6 +59,25 @@ public class CarSharingApplication {
         }
     }
 
+
+    // Export to csv file
+
+    @GetMapping("/vehicles/export")
+    public ResponseEntity<byte[]> exportVehiclesAsCsv(@RequestHeader("Authorization") String authToken) {
+        authenticate(authToken, "fleet-manager"); // Only fleet managers can export
+
+        String csvData = "ID,Name,Description,State,Current Driver\n" +
+                vehicles.values().stream()
+                        .map(v -> v.getId() + "," + v.getName() + "," + v.getDescription() + "," + v.getState() + "," + v.getCurrentDriver())
+                        .collect(Collectors.joining("\n"));
+
+        byte[] bytes = csvData.getBytes();
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        headers.setContentDispositionFormData("attachment", "vehicles.csv");
+
+        return new ResponseEntity<>(bytes, headers, HttpStatus.OK);
+    }
     // User Management
 
     //Registering (Username must be unique)

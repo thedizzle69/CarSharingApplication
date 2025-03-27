@@ -197,6 +197,11 @@ Authorization: Bearer {{fleet_manager_token}}
   "distanceTravelled": 0
 }
 
+### Export vehicles to csv file
+GET http://localhost:8080/api/vehicles/export
+Content-Type: application/json
+Authorization: Bearer {{fleet_manager_token}}
+
 ### Driver trying to delete a vehicle: Expected 403 Forbidden
 DELETE http://localhost:8080/api/vehicles/1
 Authorization: Bearer {{driver_token}}
